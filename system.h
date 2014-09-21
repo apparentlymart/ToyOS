@@ -16,6 +16,7 @@ void screen_clear();
 // debug.c
 void debug_init();
 void debug_puts(char *msg);
+void debug_putsl(char *msg, uint32_t val);
 
 // main.c
 void main();

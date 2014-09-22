@@ -35,7 +35,9 @@ uint8_t pci_get_device_header_type(uint8_t bus, uint8_t slot, uint8_t func);
 void pci_enumerate_devices(pci_scan_func cb);
 
 // interrupts.c
+typedef void(*interrupt_irq_func)();
 void interrupts_init();
+void interrupt_irq_handler(int32_t irq_num, interrupt_irq_func handler);
 
 // debug.c
 void debug_init();

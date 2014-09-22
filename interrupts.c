@@ -17,6 +17,7 @@ struct idt_ptr_s {
 typedef struct idt_ptr_s idt_ptr;
 
 idt_entry idt[256];
+interrupt_irq_func irq_handlers[16] = {0};
 
 void interrupts_set_gate(uint8_t num, uint32_t base, uint32_t selector, uint8_t flags) {
     idt[num].base_low = base & 0xffff;
@@ -25,6 +26,10 @@ void interrupts_set_gate(uint8_t num, uint32_t base, uint32_t selector, uint8_t 
     idt[num].selector = selector;
     idt[num].flags = flags;
     idt[num].dummy = 0;
+}
+
+void interrupt_irq_handler(int32_t irq_num, interrupt_irq_func handler) {
+    irq_handlers[irq_num] = handler;
 }
 
 static inline void lidt(void *base, uint16_t length) {
@@ -87,6 +92,11 @@ void interrupts_init() {
 
     // Install the IDT into the appropriate register.
     lidt(&idt, sizeof(idt) - 1);
+
+    // Enable interrupts.
+    // Not doing this yet because it makes us go into a reboot loop.
+    // TODO: Figure out what's causing that and fix it.
+    //__asm__ __volatile__ ("sti");
 }
 
 struct irq_state {
@@ -101,6 +111,11 @@ void irq_handler(struct irq_state *state) {
     // The irq_state struct is carefully designed to fit the shape
     // of data pushed by the interrupt stub, so we can access irq_no
     // relative to the given stack pointer.
+
+    interrupt_irq_func handler = irq_handlers[state->irq_no];
+    if (handler != 0) {
+        handler();
+    }
 
     // Signal the interrupt controllers that we're done.
     if (state->irq_no > 7) {

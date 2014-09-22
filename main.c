@@ -12,11 +12,10 @@ void main() {
 
     screen_clear();
 
-    screen[0] = 'T' | ((7) << 8);
-    screen[1] = 'o' | ((7) << 8);
-    screen[2] = 'y' | ((7) << 8);
-    screen[3] = 'O' | ((7) << 8);
-    screen[4] = 'S' | ((7) << 8);
+    screen_clear();
+    screen_write_string(40 - 7, 5, 0xe, "Welcome to ToyOS");
+    screen_write_char(38, 7, 0xf, 1);
+    screen_write_char(42, 7, 0xf, 2);
 
     pci_enumerate_devices(&announce_pci_device);
 

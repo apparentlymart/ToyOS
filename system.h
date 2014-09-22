@@ -17,12 +17,15 @@ void outs(uint16_t port, uint16_t data);
 uint16_t ins(uint16_t port);
 void outl(uint16_t port, uint32_t data);
 uint32_t inl(uint16_t port);
+void cpu_type_string(char *out);
 
 // video.c
 extern unsigned short *screen;
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 25
 void screen_clear();
+void screen_write_char(uint8_t col, uint8_t row, uint8_t attr, uint8_t c);
+void screen_write_string(uint8_t col, uint8_t row, uint8_t attr, uint8_t *str);
 
 // pci.c
 typedef void (*pci_scan_func)(uint32_t ids);

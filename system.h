@@ -34,6 +34,9 @@ uint16_t pci_get_device_class_ids(uint8_t bus, uint8_t slot, uint8_t func);
 uint8_t pci_get_device_header_type(uint8_t bus, uint8_t slot, uint8_t func);
 void pci_enumerate_devices(pci_scan_func cb);
 
+// interrupts.c
+void interrupts_init();
+
 // debug.c
 void debug_init();
 void debug_puts(char *msg);

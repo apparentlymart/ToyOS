@@ -22,5 +22,7 @@ void main() {
 
     pci_enumerate_devices(&announce_pci_device);
 
+    interrupts_init();
+
     debug_puts("ToyOS exiting main()");
 }

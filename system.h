@@ -27,6 +27,10 @@ void screen_clear();
 void screen_write_char(uint8_t col, uint8_t row, uint8_t attr, uint8_t c);
 void screen_write_string(uint8_t col, uint8_t row, uint8_t attr, uint8_t *str);
 
+// keyboard.c
+typedef void(*keyboard_func)(uint8_t scancode);
+void keyboard_init(keyboard_func func);
+
 // pci.c
 typedef void (*pci_scan_func)(uint32_t ids);
 uint32_t pci_get_device_ids(uint8_t bus, uint8_t slot, uint8_t func);

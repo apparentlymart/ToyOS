@@ -1,8 +1,8 @@
 
 CCOPTS := -Wall -O -ffreestanding -fomit-frame-pointer -nostdinc -fno-builtin -std=gnu99
 
-kernel.bin: link.ld start.o main.o video.o memory.o io.o debug.o pci.o interrupts.o interrupt_stubs.o
-	ld -T link.ld -o kernel.bin start.o main.o video.o memory.o io.o debug.o pci.o interrupts.o interrupt_stubs.o
+kernel.bin: link.ld start.o main.o video.o memory.o io.o keyboard.o debug.o pci.o interrupts.o interrupt_stubs.o
+	ld -T link.ld -o kernel.bin start.o main.o video.o memory.o io.o keyboard.o debug.o pci.o interrupts.o interrupt_stubs.o
 
 main.o: main.c
 	gcc $(CCOPTS) -c main.c -o main.o
@@ -18,6 +18,9 @@ io.o: io.c
 
 pci.o: pci.c
 	gcc $(CCOPTS) -c pci.c -o pci.o
+
+keyboard.o: keyboard.c
+	gcc $(CCOPTS) -c keyboard.c -o keyboard.o
 
 debug.o: debug.c
 	gcc $(CCOPTS) -c debug.c -o debug.o

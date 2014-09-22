@@ -1,8 +1,16 @@
 
 #include "system.h"
 
+volatile int keypress = 0;
+volatile uint8_t last_key_pressed;
+
 void announce_pci_device(uint32_t ids) {
     debug_putsl("Got PCI device", ids);
+}
+
+void handle_keypress(uint8_t scancode) {
+    last_key_pressed = scancode;
+    keypress = 1;
 }
 
 void main() {
@@ -22,7 +30,17 @@ void main() {
 
     pci_enumerate_devices(&announce_pci_device);
 
+    keyboard_init(handle_keypress);
     interrupts_init();
+
+    // Go into a busy loop waiting for keypresses.
+    // FIXME: Don't use a busy loop for this.
+    while (1) {
+        if (keypress) {
+            keypress = 0;
+            debug_putsl("Key event", last_key_pressed);
+        }
+    }
 
     debug_puts("ToyOS exiting main()");
 }

@@ -20,3 +20,14 @@ uint32_t inl(uint16_t port) {
     __asm__ __volatile__ ("inl %1, %0" : "=a" (rv) : "dN" (port));
     return rv;
 }
+
+void cpu_type_string(char *out) {
+    uint32_t *lout = (int32_t*)out;
+    __asm__ __volatile__ (
+        "cpuid" :
+        "=b" (*(lout+0)),
+        "=c" (*(lout+2)),
+        "=d" (*(lout+1)) :
+        "a" (0)
+    );
+}

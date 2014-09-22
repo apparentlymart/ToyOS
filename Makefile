@@ -33,4 +33,4 @@ iso: kernel.bin
 	grub-mkrescue -o boot.iso .iso
 
 boot: iso
-	qemu-system-i386 -cdrom boot.iso -serial stdio -net none
+	qemu-system-i386 -cdrom boot.iso -serial stdio -net none -usbdevice keyboard -cpu pentium3
